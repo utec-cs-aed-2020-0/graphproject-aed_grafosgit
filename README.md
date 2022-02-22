@@ -4,11 +4,10 @@
 --------
 
 ## Integrantes
+<<<<<<< HEAD
 - Ricardo Carbajal Mezarina
 - Diego Galvan Rodríguez
 - Frings Douglas Barrueta Aspajo
-
-----
 
 El proyecto del curso consiste en implementar una estructura de datos de grafo y un file parser. La estructura debe soportar los métodos y algoritmos descritos a continuacion:  
 
@@ -17,7 +16,7 @@ El proyecto del curso consiste en implementar una estructura de datos de grafo y
 
 * El grafo debe ser dinámico (inserciones. eliminaciones, búsquedas, ...)
 * Se debe implementar los dos tipos de grafos: dirigidos y no-dirigidos.
-* No considerar loops ni multi-arista. 
+* No considerar loops ni multi-arista.
 
 
 ### Methods:
@@ -66,7 +65,7 @@ UndirectedGraph<char, int> result = astar.apply();
 
 
 ## JSON file parser
-* Construye un grafo a partir de una archivo JSON de aereopuertos del mundo. 
+* Construye un grafo a partir de una archivo JSON de aereopuertos del mundo.
 
 
 ### Methods:

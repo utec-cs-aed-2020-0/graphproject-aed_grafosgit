@@ -28,7 +28,6 @@ class DirectedGraph : public Graph<TV, TE>{
             }
             return result;
         }  
-
         bool createEdge(string id1, string id2, TE w){
             // There must be at least 2 vertices
             if(vertices.size() < 2)
