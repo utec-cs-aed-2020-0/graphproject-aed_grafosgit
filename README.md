@@ -4,7 +4,7 @@
 --------
 
 ## Integrantes
-- Frings Barrueta Aspajo
+- Frings Douglas Barrueta Aspajo
 -
 -
 
