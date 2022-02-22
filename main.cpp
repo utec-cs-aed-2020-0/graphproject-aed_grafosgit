@@ -1,7 +1,5 @@
 #include <iostream>
-
 #include "Tester/tester.h"
-#include "Parser/parser.h"
 
 using namespace std;
 
@@ -12,6 +10,5 @@ int main(int argc, char *argv[]) {
     
     Tester::executeExamples();
     Tester::executeParser();
-    
     return EXIT_SUCCESS;
 }

@@ -4,9 +4,9 @@
 --------
 
 ## Integrantes
-- 
-- 
-- 
+- Ricardo Carbajal Mezarina
+- Diego Galvan Rodríguez
+- Frings Douglas Barrueta Aspajo
 
 ----
 
@@ -52,7 +52,7 @@ UndirectedGraph<char, int> graph;
 
 //1- Generates a MST graph using the Kruskal approach (only for undirected graphs)
 Kruskal<char, int> kruskal(&graph);
-UndirectedGraph<char, int> result = kruskal.apply();//return a tree
+UndirectedGraph<char, int> result = kruskal.apply(); //return a tree
 
 //2- Generates a MST graph using the Prim approach (only for undirected graphs)
 Prim<char, int> prim(&graph, "A");
