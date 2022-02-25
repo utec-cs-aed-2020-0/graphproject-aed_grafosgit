@@ -21,12 +21,25 @@ public:
     }
 
     bool insertVertex(string id, TV vertex) {
-        Vertex<TV, TE>* vertex_created = new Vertex<TV, TE>(vertex);
-        this->vertexes.insert_or_assign(id, vertex_created);
-        n_vertices++;
-        return true;
+
+      if(!findById(id)){
+          Vertex<TV, TE>* vertex_created = new Vertex<TV, TE>(vertex);
+          this->vertexes.insert_or_assign(id, vertex_created);
+          n_vertices++;
+          return true;
+      }
+      return false;
     }
+
     bool createEdge(string id1, string id2, TE w) {
+        if(!findById(id1) || !findById(id2)){
+          throw invalid_argument("IDs not found.");
+          return false;
+        }
+        if(id1 == id2){
+          throw invalid_argument("IDs are same");
+          return false;
+        }
         Edge<TV, TE>* edge_created = new Edge<TV, TE>(w);
         auto vertex_id1 = this->vertexes.find(id1)->second;
         auto vertex_id2 = this->vertexes.find(id2)->second;
@@ -93,7 +106,7 @@ public:
                 ++ite_aristas_2;
             }
         }
-        
+
         n_aristas--;
 
         return true;
@@ -135,9 +148,9 @@ public:
         Vertex<TV, TE>* vertice = this->vertexes.begin()->second;
         auto ite_arista = vertice->edges.begin();
         bool arista_encontrada = false;
-        
 
-        
+
+
         //cout << "\n*******n_vertices=" << n_vertices << endl;
         while ( vertices_encontrados != n_vertices ) {
             /*
@@ -149,7 +162,7 @@ public:
             if (stack_vertices.size() > 0) {
                 cout << "\nSTACK - VERTICES(TOP)=" << stack_vertices.top()->data;
             }
-            */ 
+            */
 
             if ( ite_arista != vertice->edges.end() ) {
                 //cout << "\nARISTA ENCONTRADA";
@@ -194,11 +207,11 @@ public:
                     hash_data_visited.insert_or_assign(vertice, false);
                     //cout << "\nCASO - NO SE ENCONTRO ARISTA PERO SI UN VERTICE EN EL STACK" << endl;
                 }
-                
+
             }
 
         }
-        
+
         return true;
 
     }
