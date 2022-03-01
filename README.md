@@ -4,7 +4,7 @@
 --------
 
 ## Integrantes
-<<<<<<< HEAD
+
 - Ricardo Carbajal Mezarina
 - Diego Galvan Rodríguez
 - Frings Douglas Barrueta Aspajo

@@ -1,121 +1,204 @@
 #ifndef UNDIRECTEDGRAPH_H
 #define UNDIRECTEDGRAPH_H
 
+#include <iostream>
+#include <string>
 #include "graph.h"
-#include <unordered_map>
-#include <list>
-#include <vector>
+#include "DSets.h"
+#include <exception>
+#include <list> 
 #include <stack>
+
+using namespace std;
 
 template<typename TV, typename TE>
 class UnDirectedGraph : public Graph<TV, TE> {
 private:
-    float n_vertices;
-    float n_aristas;
+    float NumOfEdges = 0;
+    float NumOfVerticies = 0;
 
 public:
-
-    UnDirectedGraph() {
-        n_vertices = 0;
-        n_aristas = 0;
+    map<string, Vertex<TV,TE>*>  vertices;
+    float GetNumOfVert(){return NumOfVerticies;}
+    float GetNumOfEdge(){return NumOfEdges;}
+    Vertex<TV, TE>* Getbegin(){ 
+        Vertex<TV, TE>* bgn = new Vertex<TV, TE>();
+        auto it = vertices.begin();
+        bgn = it->second;
+        return bgn;
     }
-
+    Vertex<TV, TE>* Getend(){ 
+        Vertex<TV, TE>* bgn = new Vertex<TV, TE>();
+        auto it = vertices.end();
+        bgn = it->second;
+        return bgn;
+    }
     bool insertVertex(string id, TV vertex) {
-
-      if(!findById(id)){
-          Vertex<TV, TE>* vertex_created = new Vertex<TV, TE>(vertex);
-          this->vertexes.insert_or_assign(id, vertex_created);
-          n_vertices++;
-          return true;
-      }
-      return false;
+        bool result = false;
+        if(findById(id))
+            return false;
+        Vertex<TV,TE>* newVertex = new Vertex<TV,TE>();
+        newVertex->data = vertex;
+        newVertex->id = id;
+        try{
+            vertices.insert(pair<string, Vertex<TV,TE>*>(id , newVertex));
+            NumOfVerticies++;
+            result = true;
+        }
+        catch (...){
+            cout << "Could not insert: "<< endl;
+        }
+        return result;
     }
 
     bool createEdge(string id1, string id2, TE w) {
         if(!findById(id1) || !findById(id2)){
-          throw invalid_argument("IDs not found.");
-          return false;
+            throw invalid_argument("IDs not found.");
+            return false;
         }
         if(id1 == id2){
           throw invalid_argument("IDs are same");
           return false;
         }
-        Edge<TV, TE>* edge_created = new Edge<TV, TE>(w);
-        auto vertex_id1 = this->vertexes.find(id1)->second;
-        auto vertex_id2 = this->vertexes.find(id2)->second;
-        edge_created->vertexes[0] = vertex_id1;
-        edge_created->vertexes[1] = vertex_id2;
-        vertex_id1->edges.push_back(edge_created);
-        vertex_id2->edges.push_back(edge_created);
-        n_aristas++;
+        // There must be at least 2 vertices
+        if(vertices.size() < 2)
+            return false;
+        // Check if there's room for more
+        if((vertices.size()*(vertices.size()-1)/2) == NumOfEdges ) // full of edges
+            return false;
+        // look for the vertices in the map and assign them to the list
+        if(NodesConnected(id1,id2))
+            return false;
+        Edge<TV, TE>* newEdge1 = new Edge<TV, TE>(); // create newEdge
+        Edge<TV, TE>* newEdge2 = new Edge<TV, TE>(); // create newEdge
+        Vertex<TV, TE>* v_temp1 = new Vertex<TV, TE>();
+        Vertex<TV, TE>* v_temp2 = new Vertex<TV, TE>();
+        newEdge1->weight = w;
+        newEdge2->weight = w;
+        for(auto it = vertices.begin(); it != vertices.end(); ++it){
+            if(it->first == id1){ // find start vertex
+                v_temp1 = it-> second;
+                newEdge1->vertexes[0] = it->second; // add vertex to edge
+                newEdge2->vertexes[1] = it->second; // add vertex to edge
+            }
+            if(it->first == id2){ // find end vertex
+                v_temp2 = it->second;
+                newEdge1->vertexes[1] = it->second; // add vertex to edge
+                newEdge2->vertexes[0] = it->second; // add vertex to edge
+            }
+        }
+        v_temp1->edges.push_back(newEdge1);
+        v_temp2->edges.push_back(newEdge2);
+        NumOfEdges++;
         return true;
     }
     bool deleteVertex(string id) {
-        unordered_map<TV, string> hash_data_id;
-
-        for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
-            hash_data_id.insert_or_assign( ite_vertices->second->data , ite_vertices->first );
-        }
-
-        auto ite_eliminar = this->vertexes.find(id)->second->edges.begin();
-
-        for (auto ite_aristas = this->vertexes.find(id)->second->edges.begin(); ite_aristas != this->vertexes.find(id)->second->edges.end();) {
-            if ((*ite_aristas)->vertexes[0] == this->vertexes.find(id)->second) {
-                ite_eliminar = ite_aristas;
-                ite_aristas++;
-                deleteEdge( id, hash_data_id[ (*ite_eliminar)->vertexes[1]->data ] );
+        bool result = false;
+            Vertex<TV,TE>* temp = new Vertex<TV,TE>();
+            for(auto it = vertices.begin(); it != vertices.end(); it++){
+                temp = it->second;
+                if(temp->edges.size() > 0)
+                    deleteEdge(id, temp->edges);
+                
             }
-            else if ((*ite_aristas)->vertexes[0] == this->vertexes.find(id)->second) {
-                ite_eliminar = ite_aristas;
-                ite_aristas++;
-                deleteEdge( id, hash_data_id[ (*ite_aristas)->vertexes[0]->data ] );
-            }
-            else {
-                ite_aristas++;
-            }
-        }
-
-        this->vertexes.erase(this->vertexes.find(id));
-        n_vertices--;
-
+            vertices.erase(id);
+            NumOfVerticies--;
+            return true;
         return true;
     }
-    bool deleteEdge(string id_start,string id_end){
-        list<Edge<TV, TE>*>* lista_aristas;
 
-        lista_aristas = &this->vertexes.find(id_start)->second->edges;
+    Vertex<TV,TE>* GetVertex(string id) {
+        Vertex<TV,TE>* temp = new Vertex<TV,TE>();
+        for(auto it = vertices.begin(); it != vertices.end(); it++){
+            if(it->first == id)
+                temp = it->second;
+        }
+        return temp;
+    }
 
-        for (auto ite_aristas_1 = lista_aristas->begin(); ite_aristas_1 != lista_aristas->end();) {
-            if ( ((*ite_aristas_1)->vertexes[0] == this->vertexes.find(id_end)->second) | ((*ite_aristas_1)->vertexes[1] == this->vertexes.find(id_end)->second) ) {
-                lista_aristas->erase(ite_aristas_1);
-                break;
+    bool deleteEdge(string start, string end){
+        Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+        Edge<TV, TE>* edge;
+        for(auto it = vertices.begin(); it != vertices.end();it++){
+            if(it->first == start){
+                v_temp = it->second;
+                if(v_temp->edges.size() > 0){
+                    for(auto ite = v_temp->edges.begin(); ite != v_temp->edges.end();ite++){
+                        edge = *ite;
+                        if(edge->vertexes[1]->id == end){
+                            v_temp->edges.erase(ite);
+                        }
+                    }
+                }
             }
-            else {
-                ++ite_aristas_1;
+            if(it->first == end){
+                v_temp = it->second;
+                if(v_temp->edges.size() > 0){
+                    for(auto ite = v_temp->edges.begin(); ite != v_temp->edges.end();ite++){
+                        edge = *ite;
+                        if(edge->vertexes[0]->id == end){
+                            v_temp->edges.erase(ite);
+                        }
+                    }
+                }
             }
         }
-
-        lista_aristas = &this->vertexes.find(id_end)->second->edges;
-
-        for (auto ite_aristas_2 = lista_aristas->begin(); ite_aristas_2 != lista_aristas->end();) {
-            if (((*ite_aristas_2)->vertexes[0] == this->vertexes.find(id_end)->second) | ((*ite_aristas_2)->vertexes[1] == this->vertexes.find(id_end)->second)) {
-                lista_aristas->erase(ite_aristas_2);
-                break;
-            }
-            else {
-                ++ite_aristas_2;
-            }
-        }
-
-        n_aristas--;
-
         return true;
     }
+
+    void deleteEdge(string end, list<Edge<TV,TE>*> &listedge){
+        Edge<TV, TE>* edge;
+        for(auto ite = listedge.begin(); ite != listedge.end();ite++){
+            edge = *ite;
+            if(edge->vertexes[1]->id == end){
+                listedge.erase(ite);
+                NumOfEdges--;
+                return;
+            }
+        }
+    }
+
+    bool NodesConnected(string start, string end) {
+        Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+        list<Edge<TV, TE>*> e_temp;
+        Edge<TV, TE>* edge;
+        for(auto it = vertices.begin(); it != vertices.end();it++){
+            if(it->first == start){
+                v_temp = it->second;
+                e_temp = v_temp->edges;
+                for(auto ite = e_temp.begin(); ite != e_temp.end();ite++){
+                    edge = *ite;
+                    if(edge->vertexes[1]->id == end)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
     TE& operator()(string start, string end) {
-        TE peso = 0;
-        TE* p_peso = &peso;
-        for (auto ite_aristas_1 = this->vertexes.find(start)->second->edges.begin(); ite_aristas_1 != this->vertexes.find(start)->second->edges.end();) {
-            if (((*ite_aristas_1)->vertexes[0] == this->vertexes.find(end)->second) | ((*ite_aristas_1)->vertexes[1] == this->vertexes.find(end)->second)) {
+        Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+        list<Edge<TV, TE>*> e_temp;
+        Edge<TV, TE>* edge;
+        for(auto it = vertices.begin(); it != vertices.end();it++){
+            if(it->first == start){
+                v_temp = it->second;
+                e_temp = v_temp->edges;
+                for(auto ite = e_temp.begin(); ite != e_temp.end();ite++){
+                    edge = *ite;
+                    if(edge->vertexes[1]->id == end)
+                        return edge->weight;
+                }
+            }
+        }
+        cout << "No connection between vertex " << start << " and " << end  <<" returning an empty value "<< endl;
+        return edge->weight;
+    }
+
+    TE peso(Vertex<TV,TE>* start, Vertex<TV, TE>* end) {
+        TE peso;
+        for (auto ite_aristas_1 = start->edges.begin(); ite_aristas_1 != start->edges.end();) {
+            if ( ( (*ite_aristas_1)->vertexes[0] == end) | ( (*ite_aristas_1)->vertexes[1] ==end) ) {
                 return (*ite_aristas_1)->weight;
                 break;
             }
@@ -123,36 +206,37 @@ public:
                 ++ite_aristas_1;
             }
         }
-        return *p_peso;
+        return peso;
     }
+
+
     float density() {
-        float resultado = (2*n_aristas)/(n_vertices*(n_vertices-1));
+        float resultado = (2*NumOfEdges)/(NumOfVerticies*(NumOfVerticies-1));
         return resultado;
     }
     bool isDense(float threshold = 0.5) {
-        if (density() > threshold) {
-            return true;
-        }
-        return false;
+        return density() >= threshold;
     }
+    
     bool isConnected() {
 
         unordered_map<Vertex<TV,TE>*, bool> hash_data_visited;
-        for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
+        for (auto ite_vertices = this->vertices.begin(); ite_vertices != this->vertices.end(); ite_vertices++) {
             hash_data_visited.insert_or_assign(ite_vertices->second, false);
         }
 
         stack<Vertex<TV, TE>*> stack_vertices;
-        stack< list<Edge<TV,TE>*>::iterator > stack_iterators;
+        stack< int > stack_iterators;
+        int ite_num = 0;
         int vertices_encontrados=1;
-        Vertex<TV, TE>* vertice = this->vertexes.begin()->second;
+        Vertex<TV, TE>* vertice = this->vertices.begin()->second;
         auto ite_arista = vertice->edges.begin();
         bool arista_encontrada = false;
+        
 
-
-
+        
         //cout << "\n*******n_vertices=" << n_vertices << endl;
-        while ( vertices_encontrados != n_vertices ) {
+        while ( vertices_encontrados != NumOfVerticies ) {
             /*
             cout << "\nVERTICE_VISITADO=" << vertice->data;
             cout << "\nvertices_visitados.size()=" << vertices_encontrados;
@@ -168,12 +252,13 @@ public:
                 //cout << "\nARISTA ENCONTRADA";
                 if ( ( hash_data_visited[(*ite_arista)->vertexes[0]] == true ) | ( hash_data_visited[(*ite_arista)->vertexes[1]] == true ) ) {
                     ite_arista++;
+                    ite_num++;
                     /*
                     if (ite_arista == vertice->edges.end()) {
                         cout << "\nSIGUIENTE ELEMENTO NULO";
                     }
+                    cout << "\nCASO-ARISTA NO VALIDA" << endl;
                     */
-                    //cout << "\nCASO-ARISTA NO VALIDA" << endl;
                 }
 
                 else {
@@ -186,75 +271,92 @@ public:
                         vertice = (*ite_arista)->vertexes[0];
                     }
                     ite_arista++;
-                    stack_iterators.push(ite_arista);
+                    ite_num++;
+                    stack_iterators.push(ite_num);
                     ite_arista = vertice->edges.begin();
+                    ite_num = 0;
                     vertices_encontrados++;
                     //cout << "\nCASO-ARISTA ENCONTRADA" << endl;
                 }
             }
 
             else {
+                //cout << "\nNO HAY ARISTAS";
                 if (stack_vertices.empty() == true) {
                     //cout << "\nCASO - NO SE ENCONTRO ARISTA NI OTRO VERTICE EN EL STACK" << endl;
                     return false;
                 }
                 else {
+                    //cout << "\nCASO - NO SE ENCONTRO ARISTA PERO SI UN VERTICE EN EL STACK" << endl;
                     hash_data_visited.insert_or_assign(vertice, true);
                     vertice = stack_vertices.top();
                     stack_vertices.pop();
-                    ite_arista = stack_iterators.top();
+                    ite_num = stack_iterators.top();
                     stack_iterators.pop();
+                    ite_arista = vertice->edges.begin();
+                    advance( ite_arista , ite_num );
                     hash_data_visited.insert_or_assign(vertice, false);
-                    //cout << "\nCASO - NO SE ENCONTRO ARISTA PERO SI UN VERTICE EN EL STACK" << endl;
-                }
-
+                }   
             }
-
         }
-
         return true;
-
     }
+
+
     bool isStronglyConnected() {
         throw("NO SE IMPLEMENTA PARA GRAFOS NO DIRIGIDOS");
+        return false;
     }
     bool empty() {
-        return this->vertexes.empty();
+        return (NumOfVerticies == 0);
     }
     void clear() {
-        for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
-            deleteVertex( ite_vertices->first );
+        for(auto it = vertices.begin(); it != vertices.end(); it++) {
+            Vertex<TV,TE>* del = it->second;
+            delete(del);
         }
+        NumOfVerticies = 0;
+        NumOfEdges = 0; 
+        vertices.clear();
     }
 
     void displayVertex(string id) {
-        for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
-            cout << "\nVERTICE:" << ite_vertices->first << "=" << ite_vertices->second->data << endl;
+        Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+        list<Edge<TV, TE>*> e_temp;
+        for(auto it = vertices.begin(); it != vertices.cend();it++){
+            if(it->first == id){
+                cout << it->first << "\n";
+                v_temp = it->second;
+                e_temp = v_temp->edges;
+                cout << v_temp->data << "\n";
+                cout << "Edges: \n";
+                for(auto it = e_temp.begin(); it!= e_temp.end(); it++){
+                    cout << (*it)->vertexes[1]-> id << " ";
+                    cout << (*it)->weight << endl;
+                }
+                break;
+            }
         }
     }
     bool findById(string id) {
-        for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
-            if (ite_vertices == id) {
+        for(auto it = vertices.begin(); it != vertices.cend();it++){
+            if(it->first == id){
                 return true;
             }
         }
         return false;
     }
     void display() {
-        cout << "\nDISPLAY:\n";
-        for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
-            cout << "\nVERTICE:" << ite_vertices->first << "=" << ite_vertices->second->data << endl;
-            cout << "ARISTAS:[";
-            auto ite_aristas = ite_vertices->second->edges.begin();
-            if (ite_vertices->second->edges.begin() == ite_vertices->second->edges.end()) {
-                cout << "NO HAY ARISTAS ASOCIADAS";
-            }
-            for (auto ite_aristas = ite_vertices->second->edges.begin(); ite_aristas != ite_vertices->second->edges.end(); ite_aristas++) {
-                cout << "(" << (*ite_aristas)->vertexes[0]->data << "," << (*ite_aristas)->vertexes[1]->data << "," << "peso=" << (*ite_aristas)->weight << ")";
-            }
-            cout << "]\n";
-        }
-        cout << "\n";
+        if(empty()){
+            cout << "Empty Graph\n";
+            return;
+          }
+          for(auto p : vertices){
+              cout << "ID: " << p.first << " | Vertex: (" << p.second->data << ") | Number of Edges: <" << p.second->edges.size() << ">:\n";
+              for(auto it = begin(p.second->edges); it != end(p.second->edges); ++it)
+                  cout << "\t" << "Vertex " << (*it)->vertexes[1]->data << " ---> Weight (" << (*it)->weight << ")\n";
+              cout << "\n";
+          }
     }
 
 

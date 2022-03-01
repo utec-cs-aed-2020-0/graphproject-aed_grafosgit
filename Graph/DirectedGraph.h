@@ -1,6 +1,7 @@
 #ifndef NONDIRECTEDGRAPH_H
 #define NONDIRECTEDGRAPH_H
-
+#include <iostream>
+#include <string>
 #include "graph.h"
 #include "DSets.h"
 #include <exception>
@@ -8,16 +9,31 @@ using namespace std;
 template<typename TV, typename TE>
 class DirectedGraph : public Graph<TV, TE>{
     private:
-        int NumOfEdges = 0;
-        int NumOfVerticies = 0;
+        float NumOfEdges = 0;
+        float NumOfVerticies = 0;
     public:
         map<string, Vertex<TV,TE>*>  vertices;
-        int GetNumOfVert(){return NumOfVerticies;}
-
+        float GetNumOfVert(){return NumOfVerticies;}
+        float GetNumOfEdge(){return NumOfEdges;}
+        Vertex<TV, TE>* Getbegin(){ 
+            Vertex<TV, TE>* bgn = new Vertex<TV, TE>();
+            auto it = vertices.begin();
+            bgn = it->second;
+            return bgn;
+        }
+        Vertex<TV, TE>* Getend(){ 
+            Vertex<TV, TE>* bgn = new Vertex<TV, TE>();
+            auto it = vertices.end();
+            bgn = it->second;
+            return bgn;
+        }
         bool insertVertex(string id, TV vertex){
             bool result = false;
+            if(findById(id))
+                return false;
             Vertex<TV,TE>* newVertex = new Vertex<TV,TE>();
             newVertex->data = vertex;
+            newVertex->id = id;
             try{
                 vertices.insert(pair<string, Vertex<TV,TE>*>(id , newVertex));
                 NumOfVerticies++;
@@ -48,34 +64,90 @@ class DirectedGraph : public Graph<TV, TE>{
                     // this edge is not added to the end vertex because it's a directed graph
                 }
             }
+            NumOfEdges++;
             return true;
         }
 
         bool deleteVertex(string id){
-            return false;
+            bool result = false;
+            Vertex<TV,TE>* temp = new Vertex<TV,TE>();
+            for(auto it = vertices.begin(); it != vertices.end(); it++){
+                temp = it->second;
+                deleteEdge(id, temp->edges);
+            }
+            vertices.erase(id);
+            NumOfVerticies--;
+            return true;
         }
 
-        bool deleteEdge(string id){
-            return false;
+        bool deleteEdge(string start, string end){
+            Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+            Edge<TV, TE>* edge;
+            for(auto it = vertices.begin(); it != vertices.end();it++){
+                if(it->first == start){
+                    v_temp = it->second;
+                    for(auto ite = v_temp->edges.begin(); ite != v_temp->edges.end();ite++){
+                        edge = *ite;
+                        if(edge->vertexes[1]->id == end){
+                            v_temp->edges.erase(ite);
+                            NumOfEdges--;
+                            return true;
+                        }
+                    }
+                }
+            }
+            cout << "No connection between vertex " << start << " and " << end  <<" returning an empty value "<< endl;
+            return true;
         }
 
+        void deleteEdge(string end, list<Edge<TV,TE>*> &listedge){
+            Edge<TV, TE>* edge;
+            for(auto ite = listedge.begin(); ite != listedge.end();ite++){
+                edge = *ite;
+                if(edge->vertexes[1]->id == end){
+                    listedge.erase(ite);
+                    NumOfEdges--;
+                    return;
+                }
+            }
+        }
+        
         TE &operator()(string start, string end){
-          TE peso = 0;
-          TE* p_peso = &peso;
-          for (auto ite_aristas_1 = this->vertexes.find(start)->second->edges.begin(); ite_aristas_1 != this->vertexes.find(start)->second->edges.end();) {
-              if (((*ite_aristas_1)->vertexes[0] == this->vertexes.find(end)->second) | ((*ite_aristas_1)->vertexes[1] == this->vertexes.find(end)->second)) {
-                  return (*ite_aristas_1)->weight;
-                  break;
-              }
-              else {
-                  ++ite_aristas_1;
-              }
-          }
-          return *p_peso;
+            Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+            list<Edge<TV, TE>*> e_temp;
+            Edge<TV, TE>* edge;
+            for(auto it = vertices.begin(); it != vertices.end();it++){
+                if(it->first == start){
+                    v_temp = it->second;
+                    e_temp = v_temp->edges;
+                    for(auto ite = e_temp.begin(); ite != e_temp.end();ite++){
+                        edge = *ite;
+                        if(edge->vertexes[1]->id == end)
+                            return edge->weight;
+                    }
+                }
+            }
+          cout << "No connection between vertex " << start << " and " << end  <<" returning an empty value "<< endl;
+          return edge->weight;
         }
+
+        TE peso(Vertex<TV, TE>* start, Vertex<TV, TE>* end) {
+            TE peso;
+            for (auto ite_aristas_1 = start->edges.begin(); ite_aristas_1 != start->edges.end();) {
+                if ( (*ite_aristas_1)->vertexes[1] == end) {
+                    return (*ite_aristas_1)->weight;
+                    break;
+                }
+                else {
+                    ++ite_aristas_1;
+                }
+            }
+            return peso;
+        }
+
 
         float density(){
-          float resultado = (2*NumOfEdges)/(NumOfVerticies*(NumOfVerticies-1));
+          float resultado = (NumOfEdges)/(NumOfVerticies*(NumOfVerticies-1));
           return resultado;
         }
 
@@ -90,17 +162,60 @@ class DirectedGraph : public Graph<TV, TE>{
 
         // TO DO
         bool isStronglyConnected(){
-            return false;
+            list<Edge<TV,TE>*> e_list;
+            Vertex<TV,TE>* v_current;
+            Edge<TV,TE>* e_current;
+            list<string> st;
+            int n = 0;
+            int numOf_it = 0;
+            for(auto it = vertices.begin(); it != vertices.end(); it++){
+                e_list = it->second->edges;
+                v_current = it->second;
+                if(!contains(st,v_current->id)){
+                    st.push_back(it->second->id);
+                }
+                if(e_list.size() > 0){
+                    auto ite = e_list.begin();
+                    e_current = *ite;
+                    while (st.size() < NumOfVerticies && numOf_it < NumOfVerticies){
+                        v_current = e_current->vertexes[1];
+                        if(!contains(st,v_current->id))
+                            st.push_back(v_current->id);
+                        if(v_current->edges.size() > 0)
+                            ite = v_current->edges.begin();
+                        e_current = *ite;
+                        numOf_it++;
+                    }
+                }
+                if(st.size() == NumOfVerticies)
+                    n++;
+                st.clear();
+                numOf_it = 0;
+            }
+            if(n == NumOfVerticies)
+                return true;
+            else    
+                return false;
+        }
+
+        template <typename T>
+        bool contains(list<T> &listOfElements, const T &element){
+            auto it = std::find(listOfElements.begin(), listOfElements.end(), element);
+            return it != listOfElements.end();
         }
 
         bool empty(){
-            return (this->vertexes.size() == 0);
+            return (this->NumOfVerticies == 0);
         }
 
         void clear(){
-          for (auto ite_vertices = this->vertexes.begin(); ite_vertices != this->vertexes.end(); ite_vertices++) {
-              deleteVertex( ite_vertices->first );
-          }
+            for(auto it = vertices.begin(); it != vertices.end(); it++) {
+                Vertex<TV,TE>* del = it->second;
+                delete(del);
+            }
+            NumOfVerticies = 0;
+            NumOfEdges = 0; 
+            vertices.clear();
         }
 
         void displayVertex(string id){
@@ -113,6 +228,10 @@ class DirectedGraph : public Graph<TV, TE>{
                     e_temp = v_temp->edges;
                     cout << v_temp->data << "\n";
                     cout << "Edges: \n";
+                    for(auto it = e_temp.begin(); it!= e_temp.end(); it++){
+                        cout << (*it)->vertexes[1]-> id << " ";
+                        cout << (*it)->weight << endl;
+                    }
                     break;
                 }
             }
@@ -124,7 +243,7 @@ class DirectedGraph : public Graph<TV, TE>{
                 if(it->first == id)
                     return it->second;
             }
-            cout << "not found returning an empty vertex";
+            cout << "not found, returning an empty vertex";
             return v_temp;
         }
 
@@ -142,7 +261,7 @@ class DirectedGraph : public Graph<TV, TE>{
             cout << "Empty Graph\n";
             return;
           }
-          for(auto p : this->vertexes){
+          for(auto p : vertices){
               cout << "ID: " << p.first << " | Vertex: (" << p.second->data << ") | Number of Edges: <" << p.second->edges.size() << ">:\n";
               for(auto it = begin(p.second->edges); it != end(p.second->edges); ++it)
                   cout << "\t" << "Vertex " << (*it)->vertexes[1]->data << " ---> Weight (" << (*it)->weight << ")\n";

@@ -4,7 +4,7 @@
 #include "../graph.h"
 #include "../DirectedGraph.h"
 #include "../UndirectedGraph.h"
-
+#include <list>
 template<typename TV,typename TE>
 class BFS{
 public:
@@ -15,42 +15,68 @@ public:
         this->graph = graph;
         this->start_id = vertex;
     }
-    vector<Vertex<TV , TE>*> apply();
+    Graph<TV, TE>* apply();
 };
 
+bool contains(list<string> &listOfElements, const string &element){
+    auto it = std::find(listOfElements.begin(), listOfElements.end(), element);
+    return it != listOfElements.end();
+}
+
 template<typename TV,typename TE>
-vector<Vertex<TV, TE> *> BFS<TV, TE>::apply() {
+Graph<TV, TE>* BFS<TV, TE>::apply() {
     //BFS ALGORITHM
-    vector<Vertex<TV, TE> *> result;
-    unordered_map<Vertex<TV, TE>* , bool> visited;
-
-    auto it = this->graph->vertexes.begin();
-    while (it != this->graph->vertexes.end()) {
-        visited[it->second] = false;
-        it++;
-    }
-
+    Vertex<TV, TE>* curr_vert;
+    Edge<TV, TE>* curr_edge;
     queue<Vertex<TV, TE> *> queue;
-    visited[this->graph->vertexes[this->start_id]] = true;
+    list<Edge<TV,TE>*> Edgelist;
+    list<string> visited;
+    vector<Edge<TV, TE> *> e_result;
+    
 
-    queue.push(this->graph->vertexes[this->start_id]);
-
-    while(!queue.empty()){
-        Vertex<TV , TE>* temp = queue.front();
-        result.push_back(temp);
-        queue.pop();
-
-        for(auto it = temp->edges.begin() ; it != temp->edges.end() ; ++it){
-            if(!visited[(*it)->vertexes[0]]){
-                visited[(*it)->vertexes[0]] = true;
-                queue.push((*it)->vertexes[0]);
-            }
-
-            if(!visited[(*it)->vertexes[1]]){
-                visited[(*it)->vertexes[1]] = true;
-                queue.push((*it)->vertexes[1]);
+    curr_vert = graph->Getbegin();
+    queue.push(curr_vert);
+    visited.push_back(curr_vert->id);
+    int n = 0;
+    while(n < graph->GetNumOfVert() && !queue.empty()){
+        curr_vert = queue.front();
+        // result.push_back(curr_vert);
+        Edgelist = curr_vert->edges;
+        if(Edgelist.size() > 0){
+            for( auto ite = Edgelist.begin(); ite != Edgelist.end(); ite++){
+                // throw "nope";
+                curr_edge = *ite;
+                curr_vert = curr_edge->vertexes[0];
+                if(!contains(visited,curr_vert->id)){
+                    queue.push(curr_vert);
+                    n++;
+                }
+                curr_vert = curr_edge->vertexes[1];
+                if(!contains(visited,curr_vert->id)){
+                    queue.push(curr_vert);
+                    e_result.push_back(curr_edge);
+                    n++;
+                }
+                // ++ite;
             }
         }
+        queue.pop();
+    }
+    Graph<TV, TE>* result = new DirectedGraph<TV,TE>();
+    visited.clear();
+    for(auto it = e_result.begin(); it != e_result.end(); it++){
+        Edge<TV,TE>* temp = *it;
+        // insert vertex
+        if(!contains(visited,temp->vertexes[0]->id))
+            result->insertVertex(temp->vertexes[0]->id,temp->vertexes[0]->data);
+        if(!contains(visited,temp->vertexes[1]->id))
+            result->insertVertex(temp->vertexes[1]->id,temp->vertexes[1]->data);
+        // create edge
+        result->createEdge(temp->vertexes[0]->id,temp->vertexes[1]->id,temp->weight);
+
+        // cout << temp->vertexes[0]->id << " ";
+        // cout << temp->vertexes[1]->id << " ";
+        // cout << endl;
     }
 
     return result;

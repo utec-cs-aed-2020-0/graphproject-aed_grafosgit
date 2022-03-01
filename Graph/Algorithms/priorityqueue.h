@@ -42,7 +42,7 @@ class P_Queue{
                 return;
             }
             while(current != NULL){
-                if(current->priority >= priority){
+                if(current->priority > priority){
                     current->prev->next = newNode;
                     newNode->prev = current->prev;
                     newNode->next = current;
@@ -50,11 +50,12 @@ class P_Queue{
                     nodes++;
                     return;
                 }
-                if(current->priority < priority){
+                if(current->priority <= priority){
                     if(last->next == NULL){
                         newNode->prev = current;
                         current->next = newNode;
                         nodes++;
+                        return;
                     }
                 }
                 last = last->next;
