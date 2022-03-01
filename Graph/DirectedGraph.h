@@ -198,6 +198,24 @@ class DirectedGraph : public Graph<TV, TE>{
                 return false;
         }
 
+        bool NodesConnected(string start, string end) {
+            Vertex<TV,TE>* v_temp = new Vertex<TV,TE>();
+            list<Edge<TV, TE>*> e_temp;
+            Edge<TV, TE>* edge;
+            for(auto it = vertices.begin(); it != vertices.end();it++){
+                if(it->first == start){
+                    v_temp = it->second;
+                    e_temp = v_temp->edges;
+                    for(auto ite = e_temp.begin(); ite != e_temp.end();ite++){
+                        edge = *ite;
+                        if(edge->vertexes[1]->id == end)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         template <typename T>
         bool contains(list<T> &listOfElements, const T &element){
             auto it = std::find(listOfElements.begin(), listOfElements.end(), element);

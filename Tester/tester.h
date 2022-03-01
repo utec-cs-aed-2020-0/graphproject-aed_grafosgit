@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "../Parser/parser.h"
 #include "../Graph/DirectedGraph.h"
 #include "../Graph/UndirectedGraph.h"
@@ -177,39 +178,6 @@ class Tester{
             
             DFS_Result_u->display();
 
-            UnDirectedGraph<string,int>* testGraphd;
-            
-            cout << "1. Insertion was successfull: " << testGraphd->insertVertex("A","A") << "\n";
-            cout << "2. Insertion was successfull: " << testGraphd->insertVertex("B","B") << "\n";
-            cout << "3. Insertion was successfull: " << testGraphd->insertVertex("C","C") << "\n";
-            cout << "4. Insertion was successfull: " << testGraphd->insertVertex("D","D") << "\n";
-            cout << "5. Insertion was successfull: " << testGraphd->insertVertex("E","E") << "\n";
-            cout << "6. Insertion was successfull: " << testGraphd->insertVertex("F","F") << "\n";
-            cout << "7. Insertion was successfull: " << testGraphd->insertVertex("G","G") << "\n";
-            cout << "8. Insertion was successfull: " << testGraphd->insertVertex("H","H") << "\n";
-            cout << "9. Insertion was successfull: " << testGraphd->insertVertex("I","I") << "\n\n";
-            
-            testGraphd->createEdge("A", "B", 2);
-            testGraphd->createEdge("A", "G", 3);
-            testGraphd->createEdge("A", "F", 7);
-            testGraphd->createEdge("B", "C", 4);
-            testGraphd->createEdge("C", "D", 1);
-            testGraphd->createEdge("D", "H", 1);
-            testGraphd->createEdge("D", "E", 1);
-            testGraphd->createEdge("E", "I", 2);
-            testGraphd->createEdge("I", "G", 1);
-            testGraphd->createEdge("I", "F", 5);
-            testGraphd->createEdge("I", "H", 4);
-            testGraphd->createEdge("H", "C", 2);
-            testGraphd->createEdge("F", "E", 6);
-            testGraphd->createEdge("G", "B", 1);
-            testGraphd->createEdge("G", "H", 1);
-
-            vector<nodo_dijkstra<string, int>*> resultado = Dijkstra(testGraphd, "A");
-            cout << "\n\nALGORITMO - DIJKSTRA:\n";
-            for (int i = 0; i < resultado.size(); i++) {
-                resultado[i]->display();
-            }
 
             cout << "---Deleting vertex A---\n\n";
             testGraph3->deleteVertex("A");
@@ -223,27 +191,17 @@ class Tester{
 
 
         static void executeParser(){
-            cout << "Executing parser \n";
+            cout << "\n----- Executing parser -----\n";
             Parser parser;
-            parser.readJSON("airports.txt");
-        };
+            cout << "Aeropuertos en Perú \n";
+            parser.readJSON("pe.txt");
 
-        static double toRadians_d(const double degree){
-            double one_deg = (M_PI) / 180;
-            return one_deg * degree;
-        }
-        static double distance(double lat1, double lon1, double lat2, double lon2){
-            lat1 = toRadians_d(lat1);
-            lon1 = toRadians_d(lon1);
-            lat2 = toRadians_d(lat2);
-            lon2 = toRadians_d(lon2);
-            double d_lon = lon2 - lon1;
-            double d_lat  = lat2 - lat1;
-            double ans = pow(sin(d_lat/2),2) + 
-                         cos(lat1) * cos(lat2) * 
-                         pow(sin(d_lon/2),2);
-            ans = 2 * asin(sqrt(ans)); 
-            ans = ans * 6371;
-            return ans; 
+            Graph<string,double>* N_Airports = new UnDirectedGraph<string,double>();
+            parser.uGraphMake(N_Airports);
+            parser.clear();
+
+            parser.readJSON("airports.txt");
+            Graph<string,double>* I_Airports = new UnDirectedGraph<string,double>();
+            parser.uGraphMake(I_Airports);
         }
 };

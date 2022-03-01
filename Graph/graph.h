@@ -70,6 +70,7 @@ public:
     virtual float GetNumOfVert() = 0;
     virtual float GetNumOfEdge() = 0;
     virtual TE peso(Vertex<TV, TE>* start, Vertex<TV, TE>* end) = 0;
+    virtual bool NodesConnected(string start, string end) = 0;
 };
 
 #endif
