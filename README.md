@@ -35,27 +35,156 @@ bool insertVertex(string id, TV data); // Creates a new vertex in the graph with
 
 * Consideraciones: Ninguna
 
+
 ```cpp
 bool createEdge(string start, string end, E data); // Creates a new edge in the graph with some data
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 bool deleteVertex(string id); // Deletes a vertex in the graph
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 bool deleteEdge(string start, string end); // Deletes an edge in the graph, it is not possible to search by the edge value, since it can be repeated
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 E &operator()(string start, string end); // Gets the value of the edge from the start and end vertexes
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 float density() const; // Calculates the density of the graph
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 bool isDense(float threshold = 0.5) const; // Calculates the density of the graph, and determine if it is dense dependening on a threshold value
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 bool isConnected(); // Detect if the graph is connected
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 bool isStronglyConnected() throw(); // Detect if the graph is strongly connected (only for directed graphs)
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 bool empty(); // If the graph is empty
+```
 
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 void clear(); // Clears the graph
 ```
+* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
 
 ### Algorithms:
 ```cpp
