@@ -22,6 +22,7 @@ class Parser{
     public:
         map<string, vector<double>> mp;
         map<string,string> ID_Name;
+        list<string> check;
         vector<string> AirportIDs;
         vector<string> AirportNames;
         vector<vector<string>> Destinations;
@@ -48,6 +49,7 @@ class Parser{
                 name = temp["Name"];
                 AirportIDs.push_back(id);
                 AirportNames.push_back(name);
+                check.push_back(id);
                 ID_Name.insert({id,name});
                 Destinations.push_back(temp["destinations"]);
                 ltn = temp["Longitude"];
@@ -63,6 +65,12 @@ class Parser{
             for(auto it = mp.cbegin(); it != mp.cend(); ++it){
                 vector<double> temp = it->second;
                 cout << it->first << " " << "Lon: "<< temp[0] << " Lat: " << temp[1] << "\n";
+            }
+        }
+
+        void DisplayID_Name(){
+            for(auto it = ID_Name.cbegin(); it != ID_Name.cend(); ++it){
+                cout << it->first << " "  << it->second<<"\n";
             }
         }
 
@@ -99,14 +107,18 @@ class Parser{
                     lon2 = coords[0];
                     lat2 = coords[1]; 
                     if(!tempGraph->findById(dest)){
-                        if(tempGraph->insertVertex(dest, ID_Name[dest]))
-                            insertions++;
+                        if(contains(check,dest)){
+                            if(tempGraph->insertVertex(dest, ID_Name[dest]))
+                                insertions++;
+                        }
                     }
                     if(AirportIDs[i] != dest){
-                        if(!tempGraph->NodesConnected(AirportIDs[i],dest)){
-                        weight = distance(lat1,lon1,lat2,lon2);
-                        tempGraph->createEdge(AirportIDs[i],dest,weight);
-                    }
+                        if(contains(check,dest)){
+                            if(!tempGraph->NodesConnected(AirportIDs[i],dest)){
+                                weight = distance(lat1,lon1,lat2,lon2);
+                                tempGraph->createEdge(AirportIDs[i],dest,weight);
+                            }
+                        }
                     }
                 }
             }
@@ -136,6 +148,10 @@ class Parser{
             ans = 2 * asin(sqrt(ans)); 
             ans = ans * 6371;
             return ans; 
+        }
+        bool contains(list<string> &listOfElements, const string &element){
+            auto it = std::find(listOfElements.begin(), listOfElements.end(), element);
+            return it != listOfElements.end();
         }
         // void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed data into the specified directed graph
 };

@@ -215,10 +215,16 @@ class Tester{
 
             Graph<string,double>* N_Airports = new UnDirectedGraph<string,double>();
             parser.uGraphMake(N_Airports);
-            parser.clear();
+            
+            cout << "Prim Algorithim from vertex 2789: ";
+            Prim<string, double> prim_u(N_Airports,"2789"); // Jorge Chavez
+            prim_u.prim();
 
-            parser.readJSON("airports.txt");
-            Graph<string,double>* I_Airports = new UnDirectedGraph<string,double>();
-            parser.uGraphMake(I_Airports);
+            parser.clear();
+            
+            // parser.readJSON("airports.txt");
+            // Graph<string,double>* I_Airports = new UnDirectedGraph<string,double>();
+            // parser.uGraphMake(I_Airports);
+
         }
 };

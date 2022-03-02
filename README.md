@@ -111,9 +111,85 @@ void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed da
 
 ## Ejemplo # 1 Directed map
 
-![ej#1](Images/prim_dir.png)
+![ej#1](Images/prim_dir.png) 
 
 
-## Ejemplo # 1.2 Directed  map (strongly connected)
+* Operador () entre A y B = 5
+* Densidad = 0.35
+* Strongly Connected = false
+
+### Algoritmos
+#### Prim
+![ej#1](Images/prim_dir2.PNG) 
+
+> Desde el Vertice "A" : {A,D},{D,C},{D,B},{D,E}
+
+#### Kruskal 
+![ej#1](Images/prim_dir2.PNG) 
+> Desde el Vertice "A" : {A,D},{D,C},{D,B},{D,E}
+> Para este caso son similares
+
+#### BFS Algorithim
+![ej#1](Images/BFS.PNG)
+> Desde el Vertice "A"
+
+#### DFS Algorithim
+![ej#1](Images/DFS.PNG)
+> Desde el Vertice "A"
+
+#### Dijkstra
+| Vertice  | Camino    | Peso total | 
+|----------|-----------|------------|
+| D        |  A->D     |      1     | 
+| C        |  A->D->C  |      3     | 
+| B        |  A->D->B  |      4     | 
+| E        |  A->D->E  |      4     |  
+  
+#### Ejemplo # 1.2 Directed  map (strongly connected)
+
+![ej#1](Images/Captura.PNG)
+
+#### Borrar un vertice
+
+![ej#1](Images/deletea.PNG)
 
 ## Ejemplo # 2 Undirected map
+
+![ej#1](Images/nondir1.png)
+
+* Operator(A,B) =  2
+* Density = 0.416667
+* Is it dense ?(threshold = 0.5) =  false
+* connected = true;
+### Algoritmos
+
+#### Prim
+![ej#1](Images/primun.PNG)
+> From vertex A: {A,B} {A,G} {G,I} {I,E} {E,D} {D,C} {D,H} {I,F} 
+
+#### Kruskal
+![ej#1](Images/krus.PNG)
+> {C,D} {D,E} {G,I} {A,B} {C,H} {E,I} {A,G} {F,I}
+
+#### BFS algorithim
+![ej#1](Images/BFSN.PNG)
+> From Vertex A
+
+#### DFS algorithim
+![ej#1](Images/DFSNDIR.PNG)
+> From Vertex A
+
+#### Dijkstra
+| Vertice  | Camino      | Peso total | 
+|----------|-------------|------------|
+| H        |  A->G->H    |      6     | 
+| F        |  A->F       |      7     | 
+| G        |  A->G       |      3     | 
+| E        | A->G->I->E  |      6     | 
+| I        |  A->G->I    |      4     | 
+| D        |A->G->I->E->D|      7     | 
+| C        |  A->B->C    |      6     | 
+| B        |  A->B-      |      2     |  
+
+#### Deleting a vertex
+![ej#1](Image/deletea.PNG)
