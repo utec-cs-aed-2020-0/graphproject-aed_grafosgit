@@ -21,8 +21,20 @@ El proyecto del curso consiste en implementar una estructura de datos de grafo y
 
 ### Methods:
 ```cpp
-bool insertVertex(string id, V data); // Creates a new vertex in the graph with some data and an ID
+bool insertVertex(string id, TV data); // Creates a new vertex in the graph with some data and an ID
 ```
+
+Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+
+Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+Return:
+  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+
+Consideraciones: Ninguna
+
 ```cpp
 bool createEdge(string start, string end, E data); // Creates a new edge in the graph with some data
 
