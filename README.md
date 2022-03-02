@@ -169,6 +169,7 @@ bool empty(); // If the graph is empty
 ```cpp
 void clear(); // Clears the graph
 ```
+
 * Descripcion: Funcion que permite eliminar todo el contenido del grafo, sean vertices o aristas
 
 * Parameters:
@@ -178,6 +179,139 @@ void clear(); // Clears the graph
   - Ninguna
 
 * Consideraciones: No elimina el grafo, sino todo su contenido
+
+*** Funciones Agregadas:
+
+```cpp
+float GetNumOfVert(); // Clears the graph
+```
+
+* Descripcion: Funcion que devuelve el numero de vertices del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - float: Retorna el numero de vertices
+
+* Consideraciones: Ninguna
+
+```cpp
+float GetNumOfEdge(); // Clears the graph
+```
+
+* Descripcion: Funcion que devuelve el numero de aristas del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - float: Retorna el numero de aristas
+
+* Consideraciones: Ninguna
+
+```cpp
+Vertex<TV, TE>* Getbegin();
+```
+
+* Descripcion: Funcion que devuelve vertice inicial del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice inicial
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+Vertex<TV, TE>* Getend();
+```
+
+* Descripcion: Funcion que devuelve vertice final del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice final
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+map<string,Vertex<TV,TE>*> getMap();
+```
+
+* Descripcion: Funcion que devuelve el mapa con los vertices del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice final
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+Vertex<TV,TE>* GetVertex(string id);
+```
+
+* Descripcion: Funcion que busca el vertice con el id y lo devuelve
+
+* Parameters:
+  - string id:  Identificador del vertice a buscar
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice identificado
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+bool NodesConnected(string start, string end);
+```
+
+* Descripcion: Funcion que indica si dos vertices estan conectados identificandolos con sus ids 
+
+* Parameters:
+  - string start:  Identificador del vertice inicial
+  - string end:  Identificador del vertice final
+
+* Return:
+  - bool: Retorna un true si estan directamente conectados y un false si no
+
+* Consideraciones: Para grafos no dirigidos, no importa el orden de los ids ingresados
+
+```cpp
+bool findById(string id);
+```
+
+* Descripcion: Funcion que indica si existe un vertice con el id como identificador
+
+* Parameters:
+  - string id:  Identificador del vertice a buscar
+
+* Return:
+  - bool: Retorna un true si existe el vertice y false si no
+
+* Consideraciones: Ninguna
+
+```cpp
+void display();
+```
+
+* Descripcion: Funcion que imprime los vertices del grafo y sus respectivas aristas
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Ninguna
+
+* Consideraciones: Ninguna
 
 
 ### Algorithms:
