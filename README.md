@@ -199,6 +199,25 @@ UndirectedGraph<char, int> result = astar.apply();
 
 ```
 
+**  Algoritmo Dijkstra:
+
+Este algoritmo calcula desde un vertice inicial el camino optimo hacia todos los demas vertices, si no se puede llegar a un vertice el peso se vuelve infinito(un valor muy alto), es aplicable a grafos dirigidos como no dirigidos siendo los pasos a seguir los mismos. 
+
+
+```cpp
+vector<nodo_dijkstra<TV, TE>*> Dijkstra( Graph<TV,TE>* grafo , string id );
+```
+
+* Parameters:
+  - Graph<TV,TE>* : El grafo al que se debe aplicar el algoritmo
+  - string id: Identificador del vertice de donde se quieren hallar los caminos
+
+* Return:
+  - vector<nodo_dijkstra<TV, TE>*> : 
+  - Retorna un vector de unas estructuras especiales que guardan la informacion del vertice a donde se quiere llegar
+
+* Consideraciones: Para el resultado, se ha creado una structura que guarda la informacion del dato del vertice objetivo, el peso total del camino a este y los datos de los vertices a seguir para llegar a este.
+
 
 ## JSON file parser
 * Construye un grafo a partir de una archivo JSON de aereopuertos del mundo.
