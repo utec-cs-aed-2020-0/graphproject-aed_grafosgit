@@ -24,7 +24,7 @@ El proyecto del curso consiste en implementar una estructura de datos de grafo y
 bool insertVertex(string id, TV data); // Creates a new vertex in the graph with some data and an ID
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion elemental que permite insertar un vertice con un identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
 
 * Parameters:
   - string id: Identificador del vertice, este es unico
@@ -37,55 +37,55 @@ bool insertVertex(string id, TV data); // Creates a new vertex in the graph with
 
 
 ```cpp
-bool createEdge(string start, string end, E data); // Creates a new edge in the graph with some data
+bool createEdge(string start, string end, TE data); // Creates a new edge in the graph with some data
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion elemental que permite insertar una arista con un peso especifico entre dos vertices que pueden ser identificados atraves de su id.
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - string start: Identificador del vertice inicial
+  - string end: Identificador del vertice final
+  - TE data: Peso de la arista, el tipo del peso se define cuando se crea el grafo
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Return un true si se pudo insertar la arista correctamente y un false si no
 
-* Consideraciones: Ninguna
+* Consideraciones: Para grafos no dirigidos, no importa el orden de los vertices ingresados, mientras que en grafos dirigidos la arista iniciara en el vertice con id start y apuntara el vertice con id end.
 
 ```cpp
 bool deleteVertex(string id); // Deletes a vertex in the graph
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion elemental que permite eliminar un vertice con el identificador de este, esta funcion elimina todas las aristas que este vertice tiene en su lista.
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - string id: Identificador del vertice
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Return un true si se pudo eliminar correctamente el vertice y un false si no
 
-* Consideraciones: Ninguna
+* Consideraciones: Para grafos no dirigidos, tambien se eliminaran aristas en las listas de otras vertices, mientras que en grafos dirigidos solo se eliminaran las aristas que salgan del vertice a eliminar y que solo se encuentran en su lista de aristas.
 
 ```cpp
 bool deleteEdge(string start, string end); // Deletes an edge in the graph, it is not possible to search by the edge value, since it can be repeated
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion elemental que permite eliminar una arista entre dos vertices directamente conectados y que pueden indentificarse con los ids que se van a ingresar
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - string start: Identificador del vertice inicial
+  - string end: Identificador del vertice final
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Return un true si se pudo eliminar correctamente la arista y un false si no
 
-* Consideraciones: Ninguna
+* Consideraciones: Para grafos no dirigidos, no importa el orden en que se ingresen los ids de los vertices, pues se va a eliminar la misma arista en ambas lista de aristas en los dos vertices. Para grafos dirgidos, solo se buscara la arista en la lista de aristas del vertice con id start y se eliminara la arista que apunta al vertice con id end.
 
 ```cpp
-E &operator()(string start, string end); // Gets the value of the edge from the start and end vertexes
+TE &operator()(string start, string end); // Gets the value of the edge from the start and end vertexes
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion que retorna el 
 
 * Parameters:
   - string id: Identificador del vertice, este es unico
