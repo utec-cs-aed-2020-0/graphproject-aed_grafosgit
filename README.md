@@ -31,7 +31,7 @@ bool insertVertex(string id, TV data); // Creates a new vertex in the graph with
   - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Retorna un true si se pudo insertar correctamente el vertice y un false si no
 
 * Consideraciones: Ninguna
 
@@ -48,7 +48,7 @@ bool createEdge(string start, string end, TE data); // Creates a new edge in the
   - TE data: Peso de la arista, el tipo del peso se define cuando se crea el grafo
 
 * Return:
-  - bool: Return un true si se pudo insertar la arista correctamente y un false si no
+  - bool: Retorna un true si se pudo insertar la arista correctamente y un false si no
 
 * Consideraciones: Para grafos no dirigidos, no importa el orden de los vertices ingresados, mientras que en grafos dirigidos la arista iniciara en el vertice con id start y apuntara el vertice con id end.
 
@@ -62,7 +62,7 @@ bool deleteVertex(string id); // Deletes a vertex in the graph
   - string id: Identificador del vertice
 
 * Return:
-  - bool: Return un true si se pudo eliminar correctamente el vertice y un false si no
+  - bool: Retorna true si se pudo eliminar correctamente el vertice y un false si no
 
 * Consideraciones: Para grafos no dirigidos, tambien se eliminaran aristas en las listas de otras vertices, mientras que en grafos dirigidos solo se eliminaran las aristas que salgan del vertice a eliminar y que solo se encuentran en su lista de aristas.
 
@@ -77,7 +77,7 @@ bool deleteEdge(string start, string end); // Deletes an edge in the graph, it i
   - string end: Identificador del vertice final
 
 * Return:
-  - bool: Return un true si se pudo eliminar correctamente la arista y un false si no
+  - bool: Retorna rue si se pudo eliminar correctamente la arista y un false si no
 
 * Consideraciones: Para grafos no dirigidos, no importa el orden en que se ingresen los ids de los vertices, pues se va a eliminar la misma arista en ambas lista de aristas en los dos vertices. Para grafos dirgidos, solo se buscara la arista en la lista de aristas del vertice con id start y se eliminara la arista que apunta al vertice con id end.
 
@@ -85,44 +85,42 @@ bool deleteEdge(string start, string end); // Deletes an edge in the graph, it i
 TE &operator()(string start, string end); // Gets the value of the edge from the start and end vertexes
 ```
 
-* Descripcion: Funcion que retorna el 
+* Descripcion: Funcion que retorna el peso de la arista entre dos vertices que se pueden identificar con sus ids.
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - string start: Identificador del vertice inicial.
+  - string end: Identificador del vertice final
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Retorna el peso de la arista
 
-* Consideraciones: Ninguna
+* Consideraciones: Para grafos no dirigidos, no importa el orden de los ids ingresados
 
 ```cpp
 float density() const; // Calculates the density of the graph
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion que calcula la densidad del grafo en tipo float para que acepte decimales
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - Ninguna
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - float: Densidad del grafo
 
-* Consideraciones: Ninguna
+* Consideraciones: La formula usada para calcular la densidad cambio segun el tipo de grafo
 
 ```cpp
 bool isDense(float threshold = 0.5) const; // Calculates the density of the graph, and determine if it is dense dependening on a threshold value
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion que permite saber si un grafo es denso o no con un criterio variable
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - float threshold: Es un valor predefinido con el que se va a comparar la densidad del grafo para ver si este es denso o no. 
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Return un true si el grafo es denso y un false si no lo es
 
 * Consideraciones: Ninguna
 
