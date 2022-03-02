@@ -225,50 +225,43 @@ vector<nodo_dijkstra<TV, TE>*> Dijkstra( Graph<TV,TE>* grafo , string id );
 
 ### Parser:
 ```cpp
-#include <map>
 
-  map<string, vector<double>> mp; 
-  map<string,string> ID_Name;
-  list<string> check;
-  vector<vector<string>> Destinations;
-
-void clear(); // Clears parser saved atributes
-
-void readJSON(); // Parses JSON file and saves data into class
-// NOTE: each derived class has its own readJSON method
-
-void uGraphMake(Graph<string, double>* &tempGraph); // Adds the parsed data into the specified undirected graph
-
-
+void clear(); 
 ```
 
-## [Git Karma Guidelines](http://karma-runner.github.io/5.2/dev/git-commit-msg.html)
-
-```
-<type>(<scope>): <subject>
-
-<body>
+```cpp
+void readJSON(string namefile);
 ```
 
-### Allowed ```<type>``` values
+* recibe un archivo y guarda la información pertinente (ID,Names)
+* La información se guarda en mapas
 
-* feat (new feature for the user, not a new feature for build script)
-* fix (bug fix for the user, not a fix to a build script)
-* docs (changes to the documentation)
-* style (formatting, missing semi colons, etc)
-* refactor (refactoring production code, eg. renaming a variable)
-* test (adding missing tests, refactoring tests)
-* chore (updating grunt tasks etc)
+```cpp
+void uGraphMake(Graph<string, double>* &tempGraph); 
+```
+* Recibe un puntero a un grafo puede ser Directed o Undirected y carga la informacion en grafo nuevo 
 
-### Allowed ```<scope>``` values
+```cpp
+static double toRadians_d(const double degree)
+static double distance(double lat1, double lon1, double lat2, double lon2)
+```
+* Estas funciones nos ayudan a pasar las coordenadas recibidas del json a pesos para los grafos
 
-* graph
-* directedGraph
-* undirectedGraph
-* parser
-* main
-* tester
+### Estructuras Auxiliares
 
+#### Disjoint Set
+```cpp
+  class DisjoinSetArray {};
+```
+* Utilizamos un Disjoint Set tipo array para los algorimos de Kruskal y BFS
+
+#### Priority Queue
+```cpp
+class P_Queue{}
+```
+* La lista de prioridad implementada está basada en listas enlazadas 
+* soporta insert, delete, pop_front
+* Se utilizó para el algoritmo Prim y Kruskal
 # Ejemplos
 
 ## Ejemplo # 1 Directed map
