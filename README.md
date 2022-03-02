@@ -198,10 +198,17 @@ AStar<char, int> astar(&graph, "A", "Z", vector<int> heuristics);
 UndirectedGraph<char, int> result = astar.apply();
 
 ```
+### Algoritmo Prim:
+Este algoritmo calcula desde un vertice inicial y guarda todos las aristas en una cola de prioridad y avanza hacia vertice con el menor peso o el tope de la lista de prioridad y luego se elimina el tope. Se continua hasta que ya se visitó todos los vertices o hasta que la lista esté vacia
 
-**  Algoritmo Dijkstra:
+### Algoritmo Kruskal:
+Este algoritmo pasa por todo el grafo guardando las aristas en una lista de prioridad. Luego de tener todas las aristas, se escogen de menor a mayor las aristas que van a ser escogidas y se utiliza un disjoint set array para evitar loops
+
+#### Algoritmo Dijkstra:
 
 Este algoritmo calcula desde un vertice inicial el camino optimo hacia todos los demas vertices, si no se puede llegar a un vertice el peso se vuelve infinito(un valor muy alto), es aplicable a grafos dirigidos como no dirigidos siendo los pasos a seguir los mismos. 
+
+
 
 
 ```cpp
@@ -225,16 +232,25 @@ vector<nodo_dijkstra<TV, TE>*> Dijkstra( Graph<TV,TE>* grafo , string id );
 
 ### Parser:
 ```cpp
-
-void clear(); 
+class Parser{}
 ```
+* Parameters:
+ - map para ID y Names
+ - map para ID y coordenadas
+ - file a leer
+ - objeto tipo json para leer el archivo 
 
 ```cpp
 void readJSON(string namefile);
 ```
-
 * recibe un archivo y guarda la información pertinente (ID,Names)
 * La información se guarda en mapas
+
+```cpp
+void clear(); 
+```
+* borra todo los datos guardados
+
 
 ```cpp
 void uGraphMake(Graph<string, double>* &tempGraph); 
