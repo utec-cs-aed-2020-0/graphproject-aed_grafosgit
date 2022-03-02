@@ -128,60 +128,56 @@ bool isDense(float threshold = 0.5) const; // Calculates the density of the grap
 bool isConnected(); // Detect if the graph is connected
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion para grafos no dirigidos que determina si para cada vertice dentro del grafo se puede llegar a cualquier otro
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - Ninguna
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Retorna un true si el grafo esta conectado y un false si no
 
-* Consideraciones: Ninguna
+* Consideraciones: Solo aplica para grafos no dirigidos
 
 ```cpp
 bool isStronglyConnected() throw(); // Detect if the graph is strongly connected (only for directed graphs)
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion para grafos dirigidos que de manera similar a la funcion anterior verifica si en el grafo desde cualquier vertice se puede alcanzar a cualquier otro vertice
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - Ninguna
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Retornaun true si el grafo esta fuertemente conectado y un false si no
 
-* Consideraciones: Ninguna
+* Consideraciones: Solo aplica para grafos dirigidos
 
 ```cpp
 bool empty(); // If the graph is empty
 ```
 
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Determina si el grafo esta vacio
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - Ninguna
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - bool: Retorna un true si el grafo esta vacio y un false si no
 
 * Consideraciones: Ninguna
 
 ```cpp
 void clear(); // Clears the graph
 ```
-* Descripcion: Funcion elemental que permite insertar un vertice en con el identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
+* Descripcion: Funcion que permite eliminar todo el contenido del grafo, sean vertices o aristas
 
 * Parameters:
-  - string id: Identificador del vertice, este es unico
-  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+  - Ninguna
 
 * Return:
-  - bool: Return un true si se pudo insertar correctamente el vertice y un false si no
+  - Ninguna
 
-* Consideraciones: Ninguna
+* Consideraciones: No elimina el grafo, sino todo su contenido
 
 
 ### Algorithms:
