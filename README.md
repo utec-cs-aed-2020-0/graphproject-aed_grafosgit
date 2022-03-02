@@ -306,7 +306,7 @@ void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed da
 
 #### Borrar un vertice
 
-![ej#1](Images/deletea.PNG)
+![ej#1](Images/deletead.PNG)
 
 ## Ejemplo # 2 Undirected map
 
