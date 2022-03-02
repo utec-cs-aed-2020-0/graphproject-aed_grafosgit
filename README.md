@@ -348,4 +348,4 @@ void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed da
 
 #### Deleting a vertex
 
-![ej#1](Images\deletea.PNG)
+![ej#2](Images\last.PNG)
