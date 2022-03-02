@@ -22,7 +22,8 @@ El proyecto del curso consiste en implementar una estructura de datos de grafo y
 ### Methods:
 ```cpp
 bool insertVertex(string id, V data); // Creates a new vertex in the graph with some data and an ID
-
+```
+```cpp
 bool createEdge(string start, string end, E data); // Creates a new edge in the graph with some data
 
 bool deleteVertex(string id); // Deletes a vertex in the graph
