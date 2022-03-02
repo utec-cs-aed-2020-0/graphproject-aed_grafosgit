@@ -223,16 +223,23 @@ vector<nodo_dijkstra<TV, TE>*> Dijkstra( Graph<TV,TE>* grafo , string id );
 * Construye un grafo a partir de una archivo JSON de aereopuertos del mundo.
 
 
-### Methods:
+### Parser:
 ```cpp
+#include <map>
+
+  map<string, vector<double>> mp; 
+  map<string,string> ID_Name;
+  list<string> check;
+  vector<vector<string>> Destinations;
+
 void clear(); // Clears parser saved atributes
 
 void readJSON(); // Parses JSON file and saves data into class
 // NOTE: each derived class has its own readJSON method
 
-void uGraphMake(UndirectedGraph<string, double> &tempGraph); // Adds the parsed data into the specified undirected graph
+void uGraphMake(Graph<string, double>* &tempGraph); // Adds the parsed data into the specified undirected graph
 
-void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed data into the specified directed graph
+
 ```
 
 ## [Git Karma Guidelines](http://karma-runner.github.io/5.2/dev/git-commit-msg.html)
@@ -348,4 +355,5 @@ void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed da
 
 #### Deleting a vertex
 
-![ej#2](Images\last.PNG)
+![ej#2](Images/last.PNG)
+> Deleting vertex A

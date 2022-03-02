@@ -222,9 +222,9 @@ class Tester{
 
             parser.clear();
             
-            // parser.readJSON("airports.txt");
-            // Graph<string,double>* I_Airports = new UnDirectedGraph<string,double>();
-            // parser.uGraphMake(I_Airports);
+            parser.readJSON("airports.txt");
+            Graph<string,double>* I_Airports = new UnDirectedGraph<string,double>();
+            parser.uGraphMake(I_Airports);
 
         }
 };
