@@ -90,6 +90,16 @@ class DisjoinSetArray {
             }
             Union(x,y);
         } 
+
+        bool IsConnected(T x_, T y_){
+            bool result = false;
+            int x = GetIndexfromMap(x_);
+            int y = GetIndexfromMap(y_);
+            if(Find(x) == Find(y))
+                result = true;
+            return result;
+        }
+
         void Union(int x, int y){
             n -= 1; 
             int x_set = Find(x);

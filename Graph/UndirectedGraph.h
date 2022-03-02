@@ -41,7 +41,7 @@ public:
         newVertex->data = vertex;
         newVertex->id = id;
         try{
-            vertices.insert(pair<string, Vertex<TV,TE>*>(id , newVertex));
+            this->vertices.insert(pair<string, Vertex<TV,TE>*>(id , newVertex));
             NumOfVerticies++;
             result = true;
         }
@@ -50,7 +50,9 @@ public:
         }
         return result;
     }
-
+    map<string,Vertex<TV,TE>*> getMap(){
+        return this->vertices;
+    }
     bool createEdge(string id1, string id2, TE w) {
         if(!findById(id1) || !findById(id2)){
             throw invalid_argument("IDs not found.");

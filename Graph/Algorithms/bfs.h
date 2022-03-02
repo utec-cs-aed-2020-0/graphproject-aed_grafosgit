@@ -26,6 +26,7 @@ bool contains(list<string> &listOfElements, const string &element){
 template<typename TV,typename TE>
 Graph<TV, TE>* BFS<TV, TE>::apply() {
     //BFS ALGORITHM
+    DisjoinSetArray<string> ds(3500);
     Vertex<TV, TE>* curr_vert;
     Edge<TV, TE>* curr_edge;
     queue<Vertex<TV, TE> *> queue;
@@ -37,21 +38,23 @@ Graph<TV, TE>* BFS<TV, TE>::apply() {
     curr_vert = graph->Getbegin();
     queue.push(curr_vert);
     visited.push_back(curr_vert->id);
+    ds.Insert(curr_vert->id);
     int n = 0;
-    while(n < graph->GetNumOfVert() && !queue.empty()){
+    map<string,Vertex<TV,TE>*> grph = graph->getMap();
+    for( auto it = grph.begin(); it != grph.end(); it++){
         curr_vert = queue.front();
         // result.push_back(curr_vert);
+        if(!ds.FindElement(curr_vert->id))
+            ds.Insert(it->second->id);
         Edgelist = curr_vert->edges;
         if(Edgelist.size() > 0){
             for( auto ite = Edgelist.begin(); ite != Edgelist.end(); ite++){
                 // throw "nope";
                 curr_edge = *ite;
-                curr_vert = curr_edge->vertexes[0];
-                if(!contains(visited,curr_vert->id)){
-                    queue.push(curr_vert);
-                    n++;
-                }
+                
                 curr_vert = curr_edge->vertexes[1];
+                if(!ds.FindElement(curr_vert->id))
+                    ds.Insert(curr_vert->id);
                 if(!contains(visited,curr_vert->id)){
                     queue.push(curr_vert);
                     e_result.push_back(curr_edge);
@@ -66,17 +69,15 @@ Graph<TV, TE>* BFS<TV, TE>::apply() {
     visited.clear();
     for(auto it = e_result.begin(); it != e_result.end(); it++){
         Edge<TV,TE>* temp = *it;
-        // insert vertex
-        if(!contains(visited,temp->vertexes[0]->id))
+        
+        if(!ds.IsConnected(temp->vertexes[0]->id,temp->vertexes[1]->id)){
+            // cout << temp->vertexes[0]->id << " ";
+            // cout << temp->vertexes[1]->id << " ";
             result->insertVertex(temp->vertexes[0]->id,temp->vertexes[0]->data);
-        if(!contains(visited,temp->vertexes[1]->id))
             result->insertVertex(temp->vertexes[1]->id,temp->vertexes[1]->data);
-        // create edge
-        result->createEdge(temp->vertexes[0]->id,temp->vertexes[1]->id,temp->weight);
-
-        // cout << temp->vertexes[0]->id << " ";
-        // cout << temp->vertexes[1]->id << " ";
-        // cout << endl;
+            result->createEdge(temp->vertexes[0]->id,temp->vertexes[1]->id,temp->weight);
+            ds.UnionD(temp->vertexes[0]->id,temp->vertexes[1]->id);
+        }
     }
 
     return result;

@@ -29,11 +29,11 @@ class Tester{
             
             testGraph1->createEdge("A", "B", 5);
             testGraph1->createEdge("A", "E", 5);
-            testGraph1->createEdge("D", "A", 1);
+            testGraph1->createEdge("A", "D", 1);
             testGraph1->createEdge("B", "C", 3);
             testGraph1->createEdge("D", "B", 3);
             testGraph1->createEdge("D", "C", 2);
-            testGraph1->createEdge("E", "D", 3);
+            testGraph1->createEdge("D", "E", 3);
             // Display the Graph
             testGraph1->display();
             // Properties:
@@ -79,7 +79,14 @@ class Tester{
             
             DFS_Result->display();
 
-
+            vector<nodo_dijkstra<string, int>*> resultado1;
+            resultado1 = Dijkstra(testGraph1, "A");
+            cout << "\n\nALGORITMO - DIJKSTRA:\n";
+            for (int i = 0; i < resultado1.size(); i++) {
+                resultado1[i]->display();
+            }
+            cout << endl;
+            cout << "Graph that is strongly connected: \n";
             //Graph that is strongly connected
             DirectedGraph<string, int>  testGraph12;
             cout << "1. Insertion was successfull: " << testGraph12.insertVertex("A","A") << "\n";
@@ -111,6 +118,7 @@ class Tester{
             testGraph1->clear();
             testGraph1->display();  
             
+            cout << "\n ### Ejemplo Unidirected graph ### \n";
             Graph<string,int>* testGraph3 = new UnDirectedGraph<string,int>();
             
             cout << "1. Insertion was successfull: " << testGraph3->insertVertex("A","A") << "\n";
@@ -128,7 +136,7 @@ class Tester{
             testGraph3->createEdge("A", "F", 7);
             testGraph3->createEdge("B", "C", 4);
             testGraph3->createEdge("C", "D", 1);
-            testGraph3->createEdge("D", "H", 1);
+            testGraph3->createEdge("D", "H", 2);
             testGraph3->createEdge("D", "E", 1);
             testGraph3->createEdge("E", "I", 2);
             testGraph3->createEdge("I", "G", 1);
@@ -136,12 +144,15 @@ class Tester{
             testGraph3->createEdge("I", "H", 4);
             testGraph3->createEdge("H", "C", 2);
             testGraph3->createEdge("F", "E", 6);
-            testGraph3->createEdge("G", "B", 1);
-            testGraph3->createEdge("G", "H", 1);    
+            testGraph3->createEdge("G", "B", 6);
+            testGraph3->createEdge("G", "H", 3);    
 
             testGraph3->display();
 
             // Properties:
+
+             cout << "testing operator(A,B) " << "Weight should be 2: " << (*testGraph3)("A","B")<< endl; 
+
             cout << "Density of the graph: "<< testGraph3->density()<< endl; // density
             cout << "Is it dense ?(threshold = 0.5): ";
             
@@ -178,6 +189,12 @@ class Tester{
             
             DFS_Result_u->display();
 
+            vector<nodo_dijkstra<string, int>*> resultado;
+            resultado = Dijkstra(testGraph3, "A");
+            cout << "\n\nALGORITMO - DIJKSTRA:\n";
+            for (int i = 0; i < resultado.size(); i++) {
+                resultado[i]->display();
+            }
 
             cout << "---Deleting vertex A---\n\n";
             testGraph3->deleteVertex("A");

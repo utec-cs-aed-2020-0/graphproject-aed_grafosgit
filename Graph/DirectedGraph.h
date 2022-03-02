@@ -215,7 +215,9 @@ class DirectedGraph : public Graph<TV, TE>{
             }
             return false;
         }
-
+        map<string,Vertex<TV,TE>*> getMap(){
+        return this->vertices;
+    }
         template <typename T>
         bool contains(list<T> &listOfElements, const T &element){
             auto it = std::find(listOfElements.begin(), listOfElements.end(), element);

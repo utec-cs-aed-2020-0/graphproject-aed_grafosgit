@@ -107,5 +107,13 @@ void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed da
 * main
 * tester
 
+# Ejemplos
 
-> **PD:** Puntos extras sobre Evaluación Continua si se implementa una GUI.
+## Ejemplo # 1 Directed map
+
+![ej#1](Images/prim_dir.png)
+
+
+## Ejemplo # 1.2 Directed  map (strongly connected)
+
+## Ejemplo # 2 Undirected map
