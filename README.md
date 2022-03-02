@@ -198,11 +198,38 @@ AStar<char, int> astar(&graph, "A", "Z", vector<int> heuristics);
 UndirectedGraph<char, int> result = astar.apply();
 
 ```
-### Algoritmo Prim:
+#### Algoritmo Prim:
 Este algoritmo calcula desde un vertice inicial y guarda todos las aristas en una cola de prioridad y avanza hacia vertice con el menor peso o el tope de la lista de prioridad y luego se elimina el tope. Se continua hasta que ya se visitó todos los vertices o hasta que la lista esté vacia
 
-### Algoritmo Kruskal:
+```cpp
+Prim<string, int> prim(testGraph1,"A");
+cout << "Prim Algorithim from vertex A: ";
+prim.prim();
+```
+
+* Parameters:
+  - Graph<TV,TE>* : El grafo al que se debe aplicar el algoritmo
+  - string id: Identificador del vertice de donde se quieren hallar los caminos
+
+* Return:
+  - display del recorido que se toma en el grafo i.e {A,D} {D,C} {D,B} {D,E} 
+
+
+#### Algoritmo Kruskal:
 Este algoritmo pasa por todo el grafo guardando las aristas en una lista de prioridad. Luego de tener todas las aristas, se escogen de menor a mayor las aristas que van a ser escogidas y se utiliza un disjoint set array para evitar loops
+
+```cpp
+Kruskal_A<string, int> krskal(testGraph1);
+cout << "Kruskal Algorithim ";
+krskal.Kruskal_();
+```
+
+* Parameters:
+  - Graph<TV,TE>* : El grafo al que se debe aplicar el algoritmo
+  - string id: Identificador del vertice de donde se quieren hallar los caminos
+
+* Return:
+  - display del recorido que se toma en el grafo i.e {A,D} {D,C} {D,B} {D,E} 
 
 #### Algoritmo Dijkstra:
 
