@@ -4,11 +4,10 @@
 --------
 
 ## Integrantes
-- 
-- 
-- 
 
-----
+- Ricardo Carbajal Mezarina
+- Diego Galvan Rodríguez
+- Frings Douglas Barrueta Aspajo
 
 El proyecto del curso consiste en implementar una estructura de datos de grafo y un file parser. La estructura debe soportar los métodos y algoritmos descritos a continuacion:  
 
@@ -17,33 +16,303 @@ El proyecto del curso consiste en implementar una estructura de datos de grafo y
 
 * El grafo debe ser dinámico (inserciones. eliminaciones, búsquedas, ...)
 * Se debe implementar los dos tipos de grafos: dirigidos y no-dirigidos.
-* No considerar loops ni multi-arista. 
+* No considerar loops ni multi-arista.
 
 
 ### Methods:
 ```cpp
-bool insertVertex(string id, V data); // Creates a new vertex in the graph with some data and an ID
+bool insertVertex(string id, TV data); // Creates a new vertex in the graph with some data and an ID
+```
 
-bool createEdge(string start, string end, E data); // Creates a new edge in the graph with some data
+* Descripcion: Funcion elemental que permite insertar un vertice con un identificador y la data que guarda, esta funcion revisa si es que el id es repetido o no
 
+* Parameters:
+  - string id: Identificador del vertice, este es unico
+  - TV data: Contenido del vertice, el tipo del dato se define cuando se crea el grafo
+
+* Return:
+  - bool: Retorna un true si se pudo insertar correctamente el vertice y un false si no
+
+* Consideraciones: Ninguna
+
+
+```cpp
+bool createEdge(string start, string end, TE data); // Creates a new edge in the graph with some data
+```
+
+* Descripcion: Funcion elemental que permite insertar una arista con un peso especifico entre dos vertices que pueden ser identificados atraves de su id.
+
+* Parameters:
+  - string start: Identificador del vertice inicial
+  - string end: Identificador del vertice final
+  - TE data: Peso de la arista, el tipo del peso se define cuando se crea el grafo
+
+* Return:
+  - bool: Retorna un true si se pudo insertar la arista correctamente y un false si no
+
+* Consideraciones: Para grafos no dirigidos, no importa el orden de los vertices ingresados, mientras que en grafos dirigidos la arista iniciara en el vertice con id start y apuntara el vertice con id end.
+
+```cpp
 bool deleteVertex(string id); // Deletes a vertex in the graph
+```
 
+* Descripcion: Funcion elemental que permite eliminar un vertice con el identificador de este, esta funcion elimina todas las aristas que este vertice tiene en su lista.
+
+* Parameters:
+  - string id: Identificador del vertice
+
+* Return:
+  - bool: Retorna true si se pudo eliminar correctamente el vertice y un false si no
+
+* Consideraciones: Para grafos no dirigidos, tambien se eliminaran aristas en las listas de otras vertices, mientras que en grafos dirigidos solo se eliminaran las aristas que salgan del vertice a eliminar y que solo se encuentran en su lista de aristas.
+
+```cpp
 bool deleteEdge(string start, string end); // Deletes an edge in the graph, it is not possible to search by the edge value, since it can be repeated
+```
 
-E &operator()(string start, string end); // Gets the value of the edge from the start and end vertexes
+* Descripcion: Funcion elemental que permite eliminar una arista entre dos vertices directamente conectados y que pueden indentificarse con los ids que se van a ingresar
 
+* Parameters:
+  - string start: Identificador del vertice inicial
+  - string end: Identificador del vertice final
+
+* Return:
+  - bool: Retorna rue si se pudo eliminar correctamente la arista y un false si no
+
+* Consideraciones: Para grafos no dirigidos, no importa el orden en que se ingresen los ids de los vertices, pues se va a eliminar la misma arista en ambas lista de aristas en los dos vertices. Para grafos dirgidos, solo se buscara la arista en la lista de aristas del vertice con id start y se eliminara la arista que apunta al vertice con id end.
+
+```cpp
+TE &operator()(string start, string end); // Gets the value of the edge from the start and end vertexes
+```
+
+* Descripcion: Funcion que retorna el peso de la arista entre dos vertices que se pueden identificar con sus ids.
+
+* Parameters:
+  - string start: Identificador del vertice inicial.
+  - string end: Identificador del vertice final
+
+* Return:
+  - bool: Retorna el peso de la arista
+
+* Consideraciones: Para grafos no dirigidos, no importa el orden de los ids ingresados
+
+```cpp
 float density() const; // Calculates the density of the graph
+```
 
+* Descripcion: Funcion que calcula la densidad del grafo en tipo float para que acepte decimales
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - float: Densidad del grafo
+
+* Consideraciones: La formula usada para calcular la densidad cambio segun el tipo de grafo
+
+```cpp
 bool isDense(float threshold = 0.5) const; // Calculates the density of the graph, and determine if it is dense dependening on a threshold value
+```
 
+* Descripcion: Funcion que permite saber si un grafo es denso o no con un criterio variable
+
+* Parameters:
+  - float threshold: Es un valor predefinido con el que se va a comparar la densidad del grafo para ver si este es denso o no. 
+
+* Return:
+  - bool: Return un true si el grafo es denso y un false si no lo es
+
+* Consideraciones: Ninguna
+
+```cpp
 bool isConnected(); // Detect if the graph is connected
+```
 
+* Descripcion: Funcion para grafos no dirigidos que determina si para cada vertice dentro del grafo se puede llegar a cualquier otro
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - bool: Retorna un true si el grafo esta conectado y un false si no
+
+* Consideraciones: Solo aplica para grafos no dirigidos
+
+```cpp
 bool isStronglyConnected() throw(); // Detect if the graph is strongly connected (only for directed graphs)
+```
 
+* Descripcion: Funcion para grafos dirigidos que de manera similar a la funcion anterior verifica si en el grafo desde cualquier vertice se puede alcanzar a cualquier otro vertice
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - bool: Retornaun true si el grafo esta fuertemente conectado y un false si no
+
+* Consideraciones: Solo aplica para grafos dirigidos
+
+```cpp
 bool empty(); // If the graph is empty
+```
 
+* Descripcion: Determina si el grafo esta vacio
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - bool: Retorna un true si el grafo esta vacio y un false si no
+
+* Consideraciones: Ninguna
+
+```cpp
 void clear(); // Clears the graph
 ```
+
+* Descripcion: Funcion que permite eliminar todo el contenido del grafo, sean vertices o aristas
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Ninguna
+
+* Consideraciones: No elimina el grafo, sino todo su contenido
+
+*** Funciones Agregadas:
+
+```cpp
+float GetNumOfVert(); // Clears the graph
+```
+
+* Descripcion: Funcion que devuelve el numero de vertices del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - float: Retorna el numero de vertices
+
+* Consideraciones: Ninguna
+
+```cpp
+float GetNumOfEdge(); // Clears the graph
+```
+
+* Descripcion: Funcion que devuelve el numero de aristas del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - float: Retorna el numero de aristas
+
+* Consideraciones: Ninguna
+
+```cpp
+Vertex<TV, TE>* Getbegin();
+```
+
+* Descripcion: Funcion que devuelve vertice inicial del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice inicial
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+Vertex<TV, TE>* Getend();
+```
+
+* Descripcion: Funcion que devuelve vertice final del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice final
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+map<string,Vertex<TV,TE>*> getMap();
+```
+
+* Descripcion: Funcion que devuelve el mapa con los vertices del grafo
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice final
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+Vertex<TV,TE>* GetVertex(string id);
+```
+
+* Descripcion: Funcion que busca el vertice con el id y lo devuelve
+
+* Parameters:
+  - string id:  Identificador del vertice a buscar
+
+* Return:
+  - Vertex<TV, TE>* :
+    Retorna el vertice identificado
+
+* Consideraciones: Funcion usada principalmente para otros algoritmos
+
+```cpp
+bool NodesConnected(string start, string end);
+```
+
+* Descripcion: Funcion que indica si dos vertices estan conectados identificandolos con sus ids 
+
+* Parameters:
+  - string start:  Identificador del vertice inicial
+  - string end:  Identificador del vertice final
+
+* Return:
+  - bool: Retorna un true si estan directamente conectados y un false si no
+
+* Consideraciones: Para grafos no dirigidos, no importa el orden de los ids ingresados
+
+```cpp
+bool findById(string id);
+```
+
+* Descripcion: Funcion que indica si existe un vertice con el id como identificador
+
+* Parameters:
+  - string id:  Identificador del vertice a buscar
+
+* Return:
+  - bool: Retorna un true si existe el vertice y false si no
+
+* Consideraciones: Ninguna
+
+```cpp
+void display();
+```
+
+* Descripcion: Funcion que imprime los vertices del grafo y sus respectivas aristas
+
+* Parameters:
+  - Ninguna
+
+* Return:
+  - Ninguna
+
+* Consideraciones: Ninguna
+
 
 ### Algorithms:
 ```cpp
@@ -52,7 +321,7 @@ UndirectedGraph<char, int> graph;
 
 //1- Generates a MST graph using the Kruskal approach (only for undirected graphs)
 Kruskal<char, int> kruskal(&graph);
-UndirectedGraph<char, int> result = kruskal.apply();//return a tree
+UndirectedGraph<char, int> result = kruskal.apply(); //return a tree
 
 //2- Generates a MST graph using the Prim approach (only for undirected graphs)
 Prim<char, int> prim(&graph, "A");
@@ -63,50 +332,198 @@ AStar<char, int> astar(&graph, "A", "Z", vector<int> heuristics);
 UndirectedGraph<char, int> result = astar.apply();
 
 ```
+#### Algoritmo Prim:
+Este algoritmo calcula desde un vertice inicial y guarda todos las aristas en una cola de prioridad y avanza hacia vertice con el menor peso o el tope de la lista de prioridad y luego se elimina el tope. Se continua hasta que ya se visitó todos los vertices o hasta que la lista esté vacia
+
+```cpp
+Prim<string, int> prim(testGraph1,"A");
+cout << "Prim Algorithim from vertex A: ";
+prim.prim();
+```
+
+* Parameters:
+  - Graph<TV,TE>* : El grafo al que se debe aplicar el algoritmo
+  - string id: Identificador del vertice de donde se quieren hallar los caminos
+
+* Return:
+  - display del recorido que se toma en el grafo i.e {A,D} {D,C} {D,B} {D,E} 
+
+
+#### Algoritmo Kruskal:
+Este algoritmo pasa por todo el grafo guardando las aristas en una lista de prioridad. Luego de tener todas las aristas, se escogen de menor a mayor las aristas que van a ser escogidas y se utiliza un disjoint set array para evitar loops
+
+```cpp
+Kruskal_A<string, int> krskal(testGraph1);
+cout << "Kruskal Algorithim ";
+krskal.Kruskal_();
+```
+
+* Parameters:
+  - Graph<TV,TE>* : El grafo al que se debe aplicar el algoritmo
+  - string id: Identificador del vertice de donde se quieren hallar los caminos
+
+* Return:
+  - display del recorido que se toma en el grafo i.e {A,D} {D,C} {D,B} {D,E} 
+
+#### Algoritmo Dijkstra:
+
+Este algoritmo calcula desde un vertice inicial el camino optimo hacia todos los demas vertices, si no se puede llegar a un vertice el peso se vuelve infinito(un valor muy alto), es aplicable a grafos dirigidos como no dirigidos siendo los pasos a seguir los mismos. 
+
+
+
+
+```cpp
+vector<nodo_dijkstra<TV, TE>*> Dijkstra( Graph<TV,TE>* grafo , string id );
+```
+
+* Parameters:
+  - Graph<TV,TE>* : El grafo al que se debe aplicar el algoritmo
+  - string id: Identificador del vertice de donde se quieren hallar los caminos
+
+* Return:
+  - vector<nodo_dijkstra<TV, TE>*> : 
+  - Retorna un vector de unas estructuras especiales que guardan la informacion del vertice a donde se quiere llegar
+
+* Consideraciones: Para el resultado, se ha creado una structura que guarda la informacion del dato del vertice objetivo, el peso total del camino a este y los datos de los vertices a seguir para llegar a este.
 
 
 ## JSON file parser
-* Construye un grafo a partir de una archivo JSON de aereopuertos del mundo. 
+* Construye un grafo a partir de una archivo JSON de aereopuertos del mundo.
 
 
-### Methods:
+### Parser:
 ```cpp
-void clear(); // Clears parser saved atributes
-
-void readJSON(); // Parses JSON file and saves data into class
-// NOTE: each derived class has its own readJSON method
-
-void uGraphMake(UndirectedGraph<string, double> &tempGraph); // Adds the parsed data into the specified undirected graph
-
-void dGraphMake(DirectedGraph<string, double> &tempGraph); // Adds the parsed data into the specified directed graph
+class Parser{}
 ```
+* Parameters:
+ - map para ID y Names
+ - map para ID y coordenadas
+ - file a leer
+ - objeto tipo json para leer el archivo 
 
-## [Git Karma Guidelines](http://karma-runner.github.io/5.2/dev/git-commit-msg.html)
-
+```cpp
+void readJSON(string namefile);
 ```
-<type>(<scope>): <subject>
+* recibe un archivo y guarda la información pertinente (ID,Names)
+* La información se guarda en mapas
 
-<body>
+```cpp
+void clear(); 
 ```
-
-### Allowed ```<type>``` values
-
-* feat (new feature for the user, not a new feature for build script)
-* fix (bug fix for the user, not a fix to a build script)
-* docs (changes to the documentation)
-* style (formatting, missing semi colons, etc)
-* refactor (refactoring production code, eg. renaming a variable)
-* test (adding missing tests, refactoring tests)
-* chore (updating grunt tasks etc)
-
-### Allowed ```<scope>``` values
-
-* graph
-* directedGraph
-* undirectedGraph
-* parser
-* main
-* tester
+* borra todo los datos guardados
 
 
-> **PD:** Puntos extras sobre Evaluación Continua si se implementa una GUI.
+```cpp
+void uGraphMake(Graph<string, double>* &tempGraph); 
+```
+* Recibe un puntero a un grafo puede ser Directed o Undirected y carga la informacion en grafo nuevo 
+
+```cpp
+static double toRadians_d(const double degree)
+static double distance(double lat1, double lon1, double lat2, double lon2)
+```
+* Estas funciones nos ayudan a pasar las coordenadas recibidas del json a pesos para los grafos
+
+### Estructuras Auxiliares
+
+#### Disjoint Set
+```cpp
+  class DisjoinSetArray {};
+```
+* Utilizamos un Disjoint Set tipo array para los algorimos de Kruskal y BFS
+
+#### Priority Queue
+```cpp
+class P_Queue{}
+```
+* La lista de prioridad implementada está basada en listas enlazadas 
+* soporta insert, delete, pop_front
+* Se utilizó para el algoritmo Prim y Kruskal
+# Ejemplos
+
+## Ejemplo # 1 Directed map
+
+![ej#1](Images/prim_dir.png) 
+
+
+* Operador () entre A y B = 5
+* Densidad = 0.35
+* Strongly Connected = false
+
+### Algoritmos
+#### Prim
+![ej#1](Images/prim_dir2.PNG) 
+
+> Desde el Vertice "A" : {A,D},{D,C},{D,B},{D,E}
+
+#### Kruskal 
+![ej#1](Images/prim_dir2.PNG) 
+> Desde el Vertice "A" : {A,D},{D,C},{D,B},{D,E}
+> Para este caso son similares
+
+#### BFS Algorithim
+![ej#1](Images/BFS.PNG)
+> Desde el Vertice "A"
+
+#### DFS Algorithim
+![ej#1](Images/DFS.PNG)
+> Desde el Vertice "A"
+
+#### Dijkstra
+| Vertice  | Camino    | Peso total | 
+|----------|-----------|------------|
+| D        |  A->D     |      1     | 
+| C        |  A->D->C  |      3     | 
+| B        |  A->D->B  |      4     | 
+| E        |  A->D->E  |      4     |  
+  
+#### Ejemplo # 1.2 Directed  map (strongly connected)
+
+![ej#1](Images/Captura.PNG)
+
+#### Borrar un vertice
+
+![ej#1](Images/deletead.PNG)
+
+## Ejemplo # 2 Undirected map
+
+![ej#1](Images/nondir1.png)
+
+* Operator(A,B) =  2
+* Density = 0.416667
+* Is it dense ?(threshold = 0.5) =  false
+* connected = true;
+### Algoritmos
+
+#### Prim
+![ej#1](Images/primun.PNG)
+> From vertex A: {A,B} {A,G} {G,I} {I,E} {E,D} {D,C} {D,H} {I,F} 
+
+#### Kruskal
+![ej#1](Images/krus.PNG)
+> {C,D} {D,E} {G,I} {A,B} {C,H} {E,I} {A,G} {F,I}
+
+#### BFS algorithim
+![ej#1](Images/BFSN.PNG)
+> From Vertex A
+
+#### DFS algorithim
+![ej#1](Images/DFSNDIR.PNG)
+> From Vertex A
+
+#### Dijkstra
+| Vertice  | Camino      | Peso total | 
+|----------|-------------|------------|
+| H        |  A->G->H    |      6     | 
+| F        |  A->F       |      7     | 
+| G        |  A->G       |      3     | 
+| E        | A->G->I->E  |      6     | 
+| I        |  A->G->I    |      4     | 
+| D        |A->G->I->E->D|      7     | 
+| C        |  A->B->C    |      6     | 
+| B        |  A->B-      |      2     |  
+
+#### Deleting a vertex
+
+![ej#2](Images/last.PNG)
+> Deleting vertex A
